@@ -1,0 +1,28 @@
+{
+  "name": "sample-spider",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "precommit": "lint-staged",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "lint-staged": {
+    "*.{js,json,css,md}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.js":"standard --fix"
+  },
+  "keywords": [],
+  "author": "so <so@redream.cn>",
+  "license": "ISC",
+  "dependencies": {
+    "husky": "^0.14.3",
+    "lint-staged": "^7.0.0",
+    "puppeteer": "^1.1.1"
+  },
+  "devDependencies": {
+    "standard": "^11.0.0"
+  }
+}
