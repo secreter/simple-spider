@@ -4,26 +4,29 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "#precommit": "lint-staged",
-    "start": "node server/app.js",
+    "precommit": "lint-staged",
+    "lint": "standard --fix",
+    "watch": "onchange \"server/**/*.js\"  -- npm run lint",
+    "start": "node server/lib/Spider.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "lint-staged": {
-    "server/*.{js,json,css,md}": [
-      "prettier --write",
-      "git add"
+    "server/**/*.{js,json,css,md}": [
+      "prettier --write"
     ],
-    "server/*.js": "standard --fix"
+    "server/**/*.js": "standard --fix"
   },
   "keywords": [],
   "author": "so <so@redream.cn>",
   "license": "ISC",
   "dependencies": {
     "lint-staged": "^7.0.0",
+    "lodash": "^4.17.5",
     "puppeteer": "^1.1.1"
   },
   "devDependencies": {
     "husky": "^0.14.3",
+    "onchange": "^3.3.0",
     "prettier": "^1.11.1",
     "standard": "^11.0.0"
   }
