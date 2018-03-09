@@ -39,5 +39,20 @@ class Queue {
   getQueue () {
     return this.queue
   }
+  getList (reg, remove = false) {
+    let regex = new RegExp(reg)
+    let list = this.queue.filter(item => {
+      return regex.test(this.getKey(item))
+    })
+    if (remove) {
+      this.queue = this.queue.filter(item => {
+        return !regex.test(this.getKey(item))
+      })
+    }
+    return list
+  }
+  get length () {
+    return this.queue.length
+  }
 }
 module.exports = Queue

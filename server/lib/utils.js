@@ -3,6 +3,7 @@
  */
 /**
  * 工场函数，根据选择器和返回的属性来生成方法
+ * 方法可获取页面上所有的指定选择器元素上的url
  * @param selector
  * @param attribute
  */
@@ -24,7 +25,6 @@ const getPageUrlsFnGenerator = (selector, attribute) => async (
           deepth // 爬取深度
         }
       })
-      console.log(urls)
       return urls
     },
     selector,
@@ -36,7 +36,27 @@ const getPageUrlsFnGenerator = (selector, attribute) => async (
 
 const getPageAHrefs = getPageUrlsFnGenerator('a[href]', 'href')
 const getPageEleLinks = getPageUrlsFnGenerator('[link]', 'link')
+
+/**
+ * 根据正则表达式过滤url
+ * @param list
+ * @param regex
+ * @param getKey
+ */
+const filterUrls = (list, regex, getKey = x => x) => {
+  let reg = new RegExp(regex)
+  return list.filter(item => {
+    return reg.test(getKey(item))
+  })
+}
+
+const sleep = (ms) => {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
 module.exports = {
   getPageAHrefs,
-  getPageEleLinks
+  getPageEleLinks,
+  filterUrls,
+  sleep
 }
