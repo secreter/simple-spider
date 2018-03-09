@@ -1,8 +1,7 @@
-
 const puppeteer = require('puppeteer')
 const utils = require('./lib/utils')
 const Queue = require('./lib/queue')
-let queue = new Queue(true, (item) => item.url)
+let queue = new Queue(true, item => item.url)
 const main = async () => {
   const browser = await puppeteer.launch({ headless: false })
   const page = await browser.newPage()
