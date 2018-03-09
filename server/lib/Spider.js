@@ -18,14 +18,14 @@ class Spider {
 
   async spideUrls (regexList = [], deepth = 0, link = this.seed) {
     if (deepth > this.maxDeepth) return []
-    await this.page.goto(link, {timeout: 0})
+    await this.page.goto(link, { timeout: 0 })
     // 休眠，反爬虫，同时为了加载完成
     await utils.sleep(this.interval)
     // 爬取页面所有urls
     let urls = await utils.getPageAHrefs(this.page, deepth)
     // 根据正则过滤urls
     let filtedUrls = regexList.reduce((accumulator, item) => {
-      return accumulator.concat(utils.filterUrls(urls, item.regex, (x) => x.url))
+      return accumulator.concat(utils.filterUrls(urls, item.regex, x => x.url))
     }, [])
     filtedUrls.forEach(item => {
       this.push(item)
@@ -71,12 +71,17 @@ class Spider {
 const main = async () => {
   let browser = await puppeteer.launch({ headless: false })
   let page = await browser.newPage()
-  let spider = new Spider(page, 'http://tj.58.com/shangpucz/pn1/?sourcetype=5&area=3000_%2A&sq=1')
+  let spider = new Spider(
+    page,
+    'http://tj.58.com/shangpucz/pn1/?sourcetype=5&area=3000_%2A&sq=1'
+  )
   await spider.spideUrls([
     {
-      regex: 'http:\\/\\/tj.58.com\\/shangpucz\\/pn[0-9]+\\/\\?sourcetype=5&area=3000_%2A&sq=1',
+      regex:
+        'http:\\/\\/tj.58.com\\/shangpucz\\/pn[0-9]+\\/\\?sourcetype=5&area=3000_%2A&sq=1',
       go: true
-    }, {
+    },
+    {
       regex: 'http:\\/\\/tj.58.com\\/shangpu\\/.+\\.shtml',
       go: false
     }
@@ -84,9 +89,7 @@ const main = async () => {
   await browser.close()
 }
 main()
-  .then(() => {
-
-  })
+  .then(() => {})
   .catch(e => {
     console.error(e)
   })

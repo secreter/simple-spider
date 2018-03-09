@@ -50,7 +50,7 @@ const filterUrls = (list, regex, getKey = x => x) => {
   })
 }
 
-const sleep = (ms) => {
+const sleep = ms => {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 

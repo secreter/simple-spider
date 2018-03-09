@@ -16,8 +16,16 @@ const main = async () => {
   // await page.screenshot({ path: 'example.png' })
   let urls = await utils.getPageAHrefs(page)
   console.log(urls.length)
-  let pageUrls = utils.filterUrls(urls, 'http:\\/\\/tj.58.com\\/shangpucz\\/pn[0-9]+\\/\\?sourcetype=5&area=3000_%2A&sq=1', (item) => item.url)
-  let listUrls = utils.filterUrls(urls, 'http:\\/\\/tj.58.com\\/shangpu\\/.+\\.shtml', (item) => item.url)
+  let pageUrls = utils.filterUrls(
+    urls,
+    'http:\\/\\/tj.58.com\\/shangpucz\\/pn[0-9]+\\/\\?sourcetype=5&area=3000_%2A&sq=1',
+    item => item.url
+  )
+  let listUrls = utils.filterUrls(
+    urls,
+    'http:\\/\\/tj.58.com\\/shangpu\\/.+\\.shtml',
+    item => item.url
+  )
 
   pageUrls.forEach(item => {
     queue.push(item)
