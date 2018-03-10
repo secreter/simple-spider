@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer')
 const utils = require('./lib/utils')
-// const sendEmail = require('./lib/email')
+const sendEmail = require('./lib/email')
 const Spider = require('./lib/Spider')
 const db = require('./lib/db')
 const config58 = require('./schema/config58')
@@ -31,7 +31,7 @@ const main = async () => {
   }
   console.log(sendList)
   if (sendList.length > 0) {
-    // sendEmail(sendList)
+    sendEmail(sendList)
   }
   await browser.close()
 }
