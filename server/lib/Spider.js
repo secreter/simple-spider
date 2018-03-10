@@ -1,28 +1,56 @@
 /**
  * Created by pengchaoyang on 2018/3/9
  */
-const puppeteer = require('puppeteer')
 const utils = require('./utils')
 const Queue = require('./Queue')
-class Spider {
-  constructor (page, seed, interval = 5000, maxDeepth = 3) {
-    this.seed = seed
-    this.interval = 2000
-    this.maxDeepth = maxDeepth
-    this.page = page
-    this.queue = new Queue(true, item => item.url)
-    this.historySet = new Set() // 记录爬过的url
 
-    console.log(this.seed)
+class Spider {
+  constructor (page) {
+    this.page = page
+    this.seed = null
+    this.interval = null
+    this.maxDeepth = null
+    this.queue = null
+    this.historySet = null // 记录爬过的url
   }
 
+  /**
+   * 通过传递一个配置项，初始化spider并阻塞式执行
+   * @param config
+   * @returns {Promise.<Array>}
+   */
+  async start (config) {
+    this.seed = config.seed
+    this.interval = config.interval || 3000
+    this.maxDeepth = config.maxDeepth || 3
+    this.queue = new Queue(true, item => item.url)
+    this.historySet = new Set() // 记录爬过的url
+    let dataList = []
+    console.log('start from: ', this.seed)
+    this.getPageUrls = utils.getPageUrlsFnGenerator(
+      config.urlSchema.selector || 'a[href]',
+      config.urlSchema.attribute || 'href'
+    )
+    await this.spideUrls(config.urlSchema.url || [])
+    dataList = await this.spideData(config.dataSchema || {})
+    return dataList
+  }
+
+  /**
+   * 从种子开始，爬取需要爬的数据的url
+   * 暂时设计为同步执行的，先爬完所有url再开始爬data
+   * @param regexList
+   * @param deepth
+   * @param link
+   * @returns {Promise.<*>}
+   */
   async spideUrls (regexList = [], deepth = 0, link = this.seed) {
     if (deepth > this.maxDeepth) return []
     await this.page.goto(link, { timeout: 0 })
     // 休眠，反爬虫，同时为了加载完成
     await utils.sleep(this.interval)
     // 爬取页面所有urls
-    let urls = await utils.getPageAHrefs(this.page, deepth)
+    let urls = await this.getPageUrls(this.page, deepth)
     // 根据正则过滤urls
     let filtedUrls = regexList.reduce((accumulator, item) => {
       return accumulator.concat(utils.filterUrls(urls, item.regex, x => x.url))
@@ -39,19 +67,48 @@ class Spider {
         return accumulator
       }
     }, [])
-    // 这段代码会异步执行，不能保证休眠操作顺序执行，也需要额外处理让浏览器不退出
-    // nextGoUrls.forEach(async (item) => {
-    //   console.log(item.url)
-    //   await this.spideUrls(regexList, deepth++, item.url)
-    // })
+    // 保证同步执行
     for (let i = 0; i < nextGoUrls.length; i++) {
       await this.spideUrls(regexList, deepth++, nextGoUrls[i].url)
     }
-    console.log(this.queue.length)
-    console.log(deepth)
+    console.log('queue: ', this.queue.length)
     this.queue.getList()
-
     return this.queue
+  }
+
+  async spideData (schema) {
+    let urlItem = null
+    // let i = 0
+    let dataList = []
+    while ((urlItem = this.pop())) {
+      // if (i++ > 2) break
+      console.log('queue: ', this.queue.length)
+      await this.page.goto(urlItem.url, { timeout: 0 })
+      await utils.sleep(this.interval)
+      let data = await this.page.evaluate(
+        (schema, urlItem) => {
+          let json = {}
+          json['_url'] = urlItem.url
+          schema.data.forEach(node => {
+            let ele = document.querySelector(node.selector)
+            if (ele === null) {
+              json[node.name] = null
+              return
+            }
+            if (node.attribute) {
+              json[node.name] = ele.getAttribute(node.attribute)
+            } else {
+              json[node.name] = ele.innerText
+            }
+          })
+          return json
+        },
+        schema,
+        urlItem
+      )
+      dataList.push(data)
+    }
+    return dataList
   }
 
   /**
@@ -66,32 +123,8 @@ class Spider {
     this.historySet.add(item.url)
     this.queue.push(item)
   }
+  pop () {
+    return this.queue.pop()
+  }
 }
-
-const main = async () => {
-  let browser = await puppeteer.launch({ headless: false })
-  let page = await browser.newPage()
-  let spider = new Spider(
-    page,
-    'http://tj.58.com/shangpucz/pn1/?sourcetype=5&area=3000_%2A&sq=1'
-  )
-  await spider.spideUrls([
-    {
-      regex:
-        'http:\\/\\/tj.58.com\\/shangpucz\\/pn[0-9]+\\/\\?sourcetype=5&area=3000_%2A&sq=1',
-      go: true
-    },
-    {
-      regex: 'http:\\/\\/tj.58.com\\/shangpu\\/.+\\.shtml',
-      go: false
-    }
-  ])
-  await browser.close()
-}
-main()
-  .then(() => {})
-  .catch(e => {
-    console.error(e)
-  })
-
-// module.exports = Spider
+module.exports = Spider

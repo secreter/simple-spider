@@ -7,7 +7,8 @@
     "precommit": "lint-staged",
     "lint": "standard --fix",
     "watch": "onchange \"server/**/*.js\"  -- npm run lint",
-    "start": "node server/lib/Spider.js",
+    "start": "node server/app.js",
+    "send": "node server/lib/email.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "lint-staged": {
@@ -20,9 +21,13 @@
   "author": "so <so@redream.cn>",
   "license": "ISC",
   "dependencies": {
+    "ejs": "^2.5.7",
     "lint-staged": "^7.0.0",
     "lodash": "^4.17.5",
-    "puppeteer": "^1.1.1"
+    "mongoose": "^5.0.9",
+    "nodemailer": "^4.6.2",
+    "puppeteer": "^1.1.1",
+    "uuid": "^3.2.1"
   },
   "devDependencies": {
     "husky": "^0.14.3",

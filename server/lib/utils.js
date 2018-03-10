@@ -14,6 +14,7 @@ const getPageUrlsFnGenerator = (selector, attribute) => async (
   /*
   page的所有方法都在另一个子进程里，无法传递一个方法进去，于是定义方法就定义在子进程内
    */
+  // todo 应该默认a.herf都要，配置的只是而外项
   let urlList = await page.evaluate(
     (selector, attribute, deepth) => {
       let eles = document.querySelectorAll(selector)
@@ -25,6 +26,11 @@ const getPageUrlsFnGenerator = (selector, attribute) => async (
           deepth // 爬取深度
         }
       })
+      // 必须保证获取到的链接是一个合法的url
+      urls.filter(item => {
+        return /^http(s):\/\/.+/.test(item.url)
+      })
+
       return urls
     },
     selector,
@@ -49,14 +55,34 @@ const filterUrls = (list, regex, getKey = x => x) => {
     return reg.test(getKey(item))
   })
 }
-
+/**
+ * 休眠
+ * @param ms
+ * @returns {Promise}
+ */
 const sleep = ms => {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
+/**
+ * 去重，抓到的数据里，和数据库前30条数据对比，
+ * _url相同的表示之前抓过，不再抓取
+ * @param dataList
+ * @param oldDataList
+ */
+const uniqueDataList = (dataList, oldDataList) => {
+  return dataList.filter(data => {
+    return !oldDataList.some(item => {
+      return item._url === data._url
+    })
+  })
+}
+
 module.exports = {
+  getPageUrlsFnGenerator,
   getPageAHrefs,
   getPageEleLinks,
   filterUrls,
+  uniqueDataList,
   sleep
 }
