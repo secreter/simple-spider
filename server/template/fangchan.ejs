@@ -9,12 +9,12 @@
     <% dataList.forEach(function(data){ %>
         <div class="media">
             <div class="media-body">
+                <h5 class="media-heading">面积:<%= data.area %></h5>
                 <p>
                     <a href="<%= data._url %>">
                         <%= data.address.replace(/招租|旺铺/,'') %>
                     </a>
                 </p>
-                <h5 class="media-heading">面积:<%= data.area %></h5>
             </div>
             <br>
             <br>

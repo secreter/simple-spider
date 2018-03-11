@@ -40,7 +40,7 @@ function sendEmail (dataList) {
     text: '这是一封重要邮件，收到请回复~谢谢。', // plain text body
     html: html // html body
   }
-  console.log(html)
+  // console.log(html)
   return new Promise((resolve, reject) => {
     // send mail with defined transport object
     transporter.sendMail(mailOptions, (error, info) => {

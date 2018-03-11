@@ -23,7 +23,7 @@ exports.insertData = (dataList, index) => {
   })
 }
 
-exports.getDataList = async (index, limit = 200) => {
+exports.getDataList = async (index, limit = 1000) => {
   let Model = collections[index]
   let dataList = await Model.find()
     .sort({ _id: -1 }) // sort方法只能传String或者Object,_id前4个字节是时间戳
