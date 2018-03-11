@@ -21,7 +21,7 @@ class Spider {
    */
   async start (config) {
     this.seed = config.seed
-    this.interval = config.interval || 3000
+    this.interval = config.interval || 4000
     this.maxDeepth = config.maxDeepth || 3
     this.queue = new Queue(true, item => item.url)
     this.historySet = new Set() // 记录爬过的url

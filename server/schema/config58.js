@@ -9,7 +9,7 @@ const config58 = {
     url: [
       {
         regex:
-          'http:\\/\\/tj.58.com\\/shangpucz\\/pn[1]+\\/\\?sourcetype=5&area=3000_%2A&sq=1',
+          'http:\\/\\/tj.58.com\\/shangpucz\\/pn[0-1]+\\/\\?sourcetype=5&area=3000_%2A&sq=1',
         go: true // 翻两页
       },
       {

@@ -72,8 +72,16 @@ const sleep = ms => {
  */
 const uniqueDataList = (dataList, oldDataList) => {
   return dataList.filter(data => {
+    console.log(data._url)
     return !oldDataList.some(item => {
-      return item._url === data._url
+      if (item._url === data._url) {
+        console.log(item._url, data._url)
+      }
+      // 有的地址有时间戳什么的，这时用title和address判断
+      return (
+        item._url === data._url ||
+        (item.title === data.title && item.address === data.address)
+      )
     })
   })
 }
