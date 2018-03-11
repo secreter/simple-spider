@@ -34,8 +34,8 @@ function sendEmail (dataList) {
   // setup email data with unicode symbols
   let mailOptions = {
     from: `"吕总女秘书 👻" <${account.user}>`, // sender address
-    to: ', 1979510177@qq.com', // list of receivers
-    bcc: 'so@redream.cn', // 抄送
+    to: config.emailBcc, // list of receivers
+    bcc: config.emailBcc, // 抄送
     subject: '南开大学内部消息更新通知', // Subject line
     text: '这是一封重要邮件，收到请回复~谢谢。', // plain text body
     html: html // html body
