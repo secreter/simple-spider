@@ -8,8 +8,8 @@ const AnjukeModel = dbConn.model('Anjuke')
 const GangjiwangModel = dbConn.model('Gangjiwang')
 const collections = {
   0: House58Model,
-  1: AnjukeModel,
-  2: GangjiwangModel
+  1: GangjiwangModel,
+  2: AnjukeModel
 }
 
 exports.insertData = (dataList, index) => {
