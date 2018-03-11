@@ -18,7 +18,7 @@ const main = async () => {
   let spider = new Spider(page)
   let sendList = [] // 新增的信息发送邮件
   // let dataList = await spider.start(config_58)
-  for (let i = 0; i < schemas.length; i++) {
+  for (let i = 1; i < schemas.length; i++) {
     let dataList = await spider.start(schemas[i])
 
     let oldDataList = await db.getDataList(i)
