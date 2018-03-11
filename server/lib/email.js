@@ -44,7 +44,7 @@ function sendEmail (dataList) {
   return new Promise((resolve, reject) => {
     // send mail with defined transport object
     transporter.sendMail(mailOptions, (error, info) => {
-      if (error){
+      if (error) {
         reject(error)
         return console.log(error)
       }
