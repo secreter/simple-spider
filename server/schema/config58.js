@@ -125,8 +125,9 @@ const config58 = {
         selector: '#generalSound > div'
       },
       {
-        name:'time',
-        selector:'body > div.main-wrap > div.house-title > p > span:nth-child(1)'
+        name: 'time',
+        selector:
+          'body > div.main-wrap > div.house-title > p > span:nth-child(1)'
       }
     ]
   }

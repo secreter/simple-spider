@@ -20,7 +20,7 @@ const main = async () => {
   let sendList = [] // 新增的信息发送邮件
   // let dataList = await spider.start(config_58)
   // length-1 跳过安居客
-  for (let i = 0; i < schemas.length ; i++) {
+  for (let i = 0; i < schemas.length; i++) {
     let dataList = await spider.start(schemas[i])
 
     let oldDataList = await db.getDataList(i)

@@ -12,7 +12,7 @@ let account = config.emailAccounts
 let transporter = nodemailer.createTransport({
   host: 'smtp.mxhichina.com',
   port: 465,
-  secure: true,   // true for 465, false for other ports
+  secure: true, // true for 465, false for other ports
   auth: {
     user: account.user, // generated ethereal user
     pass: account.pass // generated ethereal password
@@ -29,7 +29,7 @@ function sendEmail (dataList) {
   const html = template({
     dataList
   })
-  let time=utils.timetrans()
+  let time = utils.timetrans()
   // setup email data with unicode symbols
   let mailOptions = {
     from: `"吕总女秘书 👻" <${account.user}>`, // sender address
