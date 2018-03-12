@@ -8,7 +8,7 @@
     "lint": "standard --fix",
     "watch": "onchange \"server/**/*.js\"  -- npm run lint",
     "start": "node server/app.js",
-    "send": "node server/lib/email.js",
+    "send": "node server/sendEmail.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "lint-staged": {

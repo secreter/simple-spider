@@ -20,7 +20,7 @@ const main = async () => {
   let sendList = [] // 新增的信息发送邮件
   // let dataList = await spider.start(config_58)
   // length-1 跳过安居客
-  for (let i = 0; i < schemas.length - 1; i++) {
+  for (let i = 0; i < schemas.length ; i++) {
     let dataList = await spider.start(schemas[i])
 
     let oldDataList = await db.getDataList(i)
@@ -31,12 +31,12 @@ const main = async () => {
     sendList = sendList.concat(newDataList)
     console.log('i', i)
   }
+  sendList = sendList.filter(item => {
+    // 描述里带酒店、公寓的
+    return /酒店|公寓/.test(item.desc)
+  })
   // console.log(sendList)
   if (sendList.length > 0) {
-    sendList = sendList.filter(item => {
-      // 描述里带酒店、公寓的
-      return /酒店|公寓/.test(item.desc)
-    })
     await sendEmail(sendList)
   }
   await browser.close()

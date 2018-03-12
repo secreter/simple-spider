@@ -28,7 +28,8 @@ const HouseSchema = new mongoose.Schema(
     qizhuqi: String,
     mianzhuqi: String,
     wuyefei: String,
-    zhuanrangfei: String
+    zhuanrangfei: String,
+    time: String
   },
   {
     timestamps: {

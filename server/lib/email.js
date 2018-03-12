@@ -7,14 +7,12 @@ const ejs = require('ejs')
 const fs = require('fs')
 const path = require('path')
 const config = require('../config')
-// 随机负载均衡
-let index = new Date().getTime() % 2
-let account = config.emailAccounts[index]
-// create reusable transporter object using the default SMTP transport
+const utils = require('./utils')
+let account = config.emailAccounts
 let transporter = nodemailer.createTransport({
-  host: 'smtp.163.com',
+  host: 'smtp.mxhichina.com',
   port: 465,
-  secure: true, // true for 465, false for other ports
+  secure: true,   // true for 465, false for other ports
   auth: {
     user: account.user, // generated ethereal user
     pass: account.pass // generated ethereal password
@@ -31,13 +29,14 @@ function sendEmail (dataList) {
   const html = template({
     dataList
   })
+  let time=utils.timetrans()
   // setup email data with unicode symbols
   let mailOptions = {
     from: `"吕总女秘书 👻" <${account.user}>`, // sender address
-    to: config.emailBcc, // list of receivers
+    to: config.emailTo, // list of receivers
     bcc: config.emailBcc, // 抄送
-    subject: '南开大学内部消息更新通知', // Subject line
-    text: '这是一封重要邮件，收到请回复~谢谢。', // plain text body
+    subject: `房地产内部消息更新通知--${time}`, // Subject line
+    text: '这是一封重要邮件。', // plain text body
     html: html // html body
   }
   // console.log(html)

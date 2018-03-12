@@ -123,6 +123,10 @@ const config58 = {
       {
         name: 'desc',
         selector: '#generalSound > div'
+      },
+      {
+        name:'time',
+        selector:'body > div.main-wrap > div.house-title > p > span:nth-child(1)'
       }
     ]
   }
