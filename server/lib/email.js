@@ -38,7 +38,7 @@ function sendEmail (dataList) {
     subject: `房地产内部消息更新通知--${time}`, // Subject line
     text: '这是一封重要邮件。', // plain text body
     html: html // html body
-  }
+}
   // console.log(html)
   return new Promise((resolve, reject) => {
     // send mail with defined transport object
