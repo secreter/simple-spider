@@ -7,9 +7,11 @@ const path = require('path')
 // const axios = require('axios')
 // const urlencode = require('urlencode')
 // const groupName = urlencode('机器人')
-const groupName = '海淀小分队'
+const groupName = 'wheretogo'    //中文异常
 const main = async () => {
   const browser = await puppeteer.launch({
+    headless:false,
+    timeout:60000,
     args: ['--no-sandbox', '--disable-setuid-sandbox']
   })
   const page = await browser.newPage()
