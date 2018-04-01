@@ -6,6 +6,7 @@ const utils = require('./lib/utils')
 const path = require('path')
 const axios = require('axios')
 const urlencode = require('urlencode')
+const groupName=urlencode('机器人')
 const main = async () => {
   const browser = await puppeteer.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox']
@@ -29,9 +30,7 @@ const main = async () => {
   })
   console.log('get wheretogo1.png')
   // 发送微信消息
-  let msgUrl = `http://item.redream.cn:5001/send_img_to_group/${urlencode(
-    '机器人'
-  )}/wheretogo1.png`
+  let msgUrl = `http://item.redream.cn:5001/send_img_to_group/${groupName}/wheretogo1.png`
   await axios.get(msgUrl)
   console.log('send ', msgUrl)
 
@@ -47,11 +46,10 @@ const main = async () => {
     },
     path: path.join(__dirname, './img/wheretogo2.png')
   })
+  console.log('get wheretogo2.png')
 
   // 发送微信消息
-  msgUrl = `http://item.redream.cn:5001/send_img_to_group/${urlencode(
-    '机器人'
-  )}/wheretogo2.png`
+  msgUrl = `http://item.redream.cn:5001/send_img_to_group/${groupName}/wheretogo2.png`
   await axios.get(msgUrl)
   console.log('send ', msgUrl)
   await browser.close()
