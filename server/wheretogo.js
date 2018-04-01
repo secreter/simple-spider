@@ -4,9 +4,10 @@
 const puppeteer = require('puppeteer')
 const utils = require('./lib/utils')
 const path = require('path')
-const axios = require('axios')
-const urlencode = require('urlencode')
-const groupName=urlencode('机器人')
+// const axios = require('axios')
+// const urlencode = require('urlencode')
+// const groupName = urlencode('机器人')
+const groupName = '海淀小分队'
 const main = async () => {
   const browser = await puppeteer.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox']
@@ -31,7 +32,8 @@ const main = async () => {
   console.log('get wheretogo1.png')
   // 发送微信消息
   let msgUrl = `http://item.redream.cn:5001/send_img_to_group/${groupName}/wheretogo1.png`
-  await axios.get(msgUrl)
+  // await axios.get(msgUrl)
+  await page.goto(msgUrl)
   console.log('send ', msgUrl)
 
   await page.goto('https://beijing.douban.com/events/weekend-all?start=10')
@@ -50,7 +52,8 @@ const main = async () => {
 
   // 发送微信消息
   msgUrl = `http://item.redream.cn:5001/send_img_to_group/${groupName}/wheretogo2.png`
-  await axios.get(msgUrl)
+  // await axios.get(msgUrl)
+  await page.goto(msgUrl)
   console.log('send ', msgUrl)
   await browser.close()
 }
