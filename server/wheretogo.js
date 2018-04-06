@@ -7,7 +7,8 @@ const path = require('path')
 // const axios = require('axios')
 // const urlencode = require('urlencode')
 // const groupName = urlencode('机器人')
-const groupName = 'wheretogo' // 中文异常
+// const groupName = 'wheretogo' // 中文异常
+const groupName = 'cp' // 中文异常
 const main = async () => {
   const browser = await puppeteer.launch({
     headless: false,
